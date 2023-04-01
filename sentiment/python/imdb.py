@@ -52,7 +52,7 @@ def get_word_index(reverse=False):
   """
   word_index = tf.keras.datasets.imdb.get_word_index()
   if reverse:
-    word_index = dict((word_index[key], key) for key in word_index)
+    word_index = {word_index[key]: key for key in word_index}
   return word_index
 
 
@@ -144,7 +144,7 @@ def train_model(model_type,
   elif model_type == 'lstm':
     model.add(tf.keras.layers.LSTM(128))
   else:
-    raise ValueError("Invalid model type: '%s'" % model_type)
+    raise ValueError(f"Invalid model type: '{model_type}'")
   model.add(tf.keras.layers.Dense(1, activation='sigmoid'))
 
   model.compile('adam', 'binary_crossentropy', metrics=['accuracy'])

@@ -40,7 +40,7 @@ def quantize(w, bits):
   elif bits == 16:
     dtype = np.uint16
   else:
-    raise ValueError('Unsupported bits of quantization: %s' % bits)
+    raise ValueError(f'Unsupported bits of quantization: {bits}')
 
   w_min = np.min(w)
   w_max = np.max(w)
@@ -71,8 +71,7 @@ def dequantize(w_quantized, w_min, w_max):
   elif w_quantized.dtype == np.uint16:
     bits = 16
   else:
-    raise ValueError(
-        'Unsupported dtype in quantized values: %s' % w_quantized.dtype)
+    raise ValueError(f'Unsupported dtype in quantized values: {w_quantized.dtype}')
   return (w_min +
           w_quantized.astype(np.float64) / np.power(2, bits) * (w_max - w_min))
 

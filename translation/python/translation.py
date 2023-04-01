@@ -62,8 +62,8 @@ def read_data():
   target_characters = sorted(list(target_characters))
   num_encoder_tokens = len(input_characters)
   num_decoder_tokens = len(target_characters)
-  max_encoder_seq_length = max([len(txt) for txt in input_texts])
-  max_decoder_seq_length = max([len(txt) for txt in target_texts])
+  max_encoder_seq_length = max(len(txt) for txt in input_texts)
+  max_decoder_seq_length = max(len(txt) for txt in target_texts)
 
   print('Number of samples:', len(input_texts))
   print('Number of unique input tokens:', num_encoder_tokens)
@@ -89,7 +89,7 @@ def read_data():
         'max_decoder_seq_length': max_decoder_seq_length
     }
     f.write(json.dumps(metadata, ensure_ascii=False))
-  print('Saved metadata at: %s' % metadata_json_path)
+  print(f'Saved metadata at: {metadata_json_path}')
 
   encoder_input_data = np.zeros(
       (len(input_texts), max_encoder_seq_length, num_encoder_tokens),
@@ -274,8 +274,7 @@ def main():
 
   # Reverse-lookup token index to decode sequences back to
   # something readable.
-  reverse_target_char_index = dict(
-      (i, char) for char, i in target_token_index.items())
+  reverse_target_char_index = {i: char for char, i in target_token_index.items()}
 
   target_begin_index = target_token_index['\t']
 

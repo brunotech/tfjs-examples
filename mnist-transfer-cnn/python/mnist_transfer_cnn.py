@@ -102,7 +102,7 @@ def train_model(model,
             epochs=epochs,
             verbose=1,
             validation_data=(x_test, y_test))
-  print('Training time: %s' % (datetime.datetime.now() - t))
+  print(f'Training time: {datetime.datetime.now() - t}')
   score = model.evaluate(x_test, y_test, verbose=0)
   print('Test score:', score[0])
   print('Test accuracy:', score[1])
@@ -118,10 +118,8 @@ def write_mnist_examples_to_json_file(x, y, js_path):
       with shape (NUM_EXAMPLES,).
     js_path: Path to the JavaScript file to write to.
   """
-  data = []
   num_examples = x.shape[0]
-  for i in range(num_examples):
-    data.append({'x': x[i, ...].tolist(), 'y': int(y[i])})
+  data = [{'x': x[i, ...].tolist(), 'y': int(y[i])} for i in range(num_examples)]
   with open(js_path, 'wt') as f:
     f.write(json.dumps(data))
 
@@ -142,14 +140,14 @@ def write_gte5_data(x_train_gte5,
       if the value is '/tmp/foo', the train and test files will be written
       at '/tmp/foo.train.js' and '/tmp/foo.test.js', respectively.
   """
-  gte5_train_path = gte5_data_path_prefix + '.train.json'
+  gte5_train_path = f'{gte5_data_path_prefix}.train.json'
   write_mnist_examples_to_json_file(
       x_train_gte5, y_train_gte5, gte5_train_path)
-  print('Wrote gte5 training data to: %s' % gte5_train_path)
-  gte5_test_path = gte5_data_path_prefix + '.test.json'
+  print(f'Wrote gte5 training data to: {gte5_train_path}')
+  gte5_test_path = f'{gte5_data_path_prefix}.test.json'
   write_mnist_examples_to_json_file(
       x_test_gte5, y_test_gte5, gte5_test_path)
-  print('Wrote gte5 test data to: %s' % gte5_test_path)
+  print(f'Wrote gte5 test data to: {gte5_test_path}')
 
 
 def train_and_save_model(filters,
